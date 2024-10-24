@@ -31,9 +31,9 @@ public class Persona  implements Serializable{
     @Column(name = "EMAIL", length = 30)
     private String email;
 
-    @Basic
-    @Column(name = "PROVINCIA", nullable = false)
-    private Integer provincia;
+    @ManyToOne
+    @JoinColumn(name = "PROVINCIA", nullable = false)
+    private Provincia provincia;
 
     @Basic
     @Column(name = "FECHA_NACIMIENTO")
@@ -79,100 +79,75 @@ public class Persona  implements Serializable{
                 Objects.equals(foto, persona.foto);
     }
 
-
-    // Getters y setters
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public String getApellidos() {
         return apellidos;
     }
-
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
-
     public String getTelefono() {
         return telefono;
     }
-
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Integer getProvincia() {
+    public Provincia getProvincia() {
         return provincia;
     }
-
-    public void setProvincia(Integer provincia) {
+    public void setProvincia(Provincia provincia) {
         this.provincia = provincia;
     }
-
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
-
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-
     public Short getNumHijos() {
         return numHijos;
     }
-
     public void setNumHijos(Short numHijos) {
         this.numHijos = numHijos;
     }
-
     public Character getEstadoCivil() {
         return estadoCivil;
     }
-
     public void setEstadoCivil(Character estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
-
     public Double getSalario() {
         return salario;
     }
-
     public void setSalario(Double salario) {
         this.salario = salario;
     }
-
     public Boolean getJubilado() {
         return jubilado;
     }
-
     public void setJubilado(Boolean jubilado) {
         this.jubilado = jubilado;
     }
-
     public String getFoto() {
         return foto;
     }
-
     public void setFoto(String foto) {
         this.foto = foto;
     }

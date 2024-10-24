@@ -1,8 +1,8 @@
 package es.ieslosmontecillos.AppAgendaBE.entity;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="PROVINCIA")
@@ -35,6 +35,8 @@ public class Provincia implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    @OneToMany(mappedBy = "provincia")
+    private Set<Persona> personas;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
