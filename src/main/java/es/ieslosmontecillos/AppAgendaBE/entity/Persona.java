@@ -8,26 +8,22 @@ import java.util.Objects;
 
 @Entity
 @Table(name="PERSONA")
-public class Persona  implements Serializable{
+public class Persona implements Serializable {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    private Long id;
+    private long id;
 
-    @Basic
     @Column(name = "NOMBRE", nullable = false, length = 20)
     private String nombre;
 
-    @Basic
     @Column(name = "APELLIDOS", nullable = false, length = 40)
     private String apellidos;
 
-    @Basic
     @Column(name = "TELEFONO", length = 15)
     private String telefono;
 
-    @Basic
     @Column(name = "EMAIL", length = 30)
     private String email;
 
@@ -35,54 +31,49 @@ public class Persona  implements Serializable{
     @JoinColumn(name = "PROVINCIA", nullable = false)
     private Provincia provincia;
 
-    @Basic
-    @Column(name = "FECHA_NACIMIENTO")
     @Temporal(TemporalType.DATE)
+    @Column(name = "FECHA_NACIMIENTO")
     private Date fechaNacimiento;
 
-    @Basic
     @Column(name = "NUM_HIJOS")
-    private Short numHijos;
+    private short numHijos;
 
-    @Basic
     @Column(name = "ESTADO_CIVIL", length = 1)
-    private Character estadoCivil;
+    private char estadoCivil;
 
-    @Basic
     @Column(name = "SALARIO", precision = 9, scale = 2)
-    private Double salario;
+    private double salario;
 
-    @Basic
     @Column(name = "JUBILADO")
-    private Boolean jubilado;
+    private byte jubilado;
 
-    @Basic
     @Column(name = "FOTO", length = 30)
     private String foto;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Persona)) return false;
         Persona persona = (Persona) o;
-        return Objects.equals(id, persona.id) &&
+        return id == persona.id &&
+                numHijos == persona.numHijos &&
+                estadoCivil == persona.estadoCivil &&
+                Double.compare(persona.salario, salario) == 0 &&
+                jubilado == persona.jubilado &&
                 Objects.equals(nombre, persona.nombre) &&
                 Objects.equals(apellidos, persona.apellidos) &&
                 Objects.equals(telefono, persona.telefono) &&
                 Objects.equals(email, persona.email) &&
                 Objects.equals(provincia, persona.provincia) &&
                 Objects.equals(fechaNacimiento, persona.fechaNacimiento) &&
-                Objects.equals(numHijos, persona.numHijos) &&
-                Objects.equals(estadoCivil, persona.estadoCivil) &&
-                Objects.equals(salario, persona.salario) &&
-                Objects.equals(jubilado, persona.jubilado) &&
                 Objects.equals(foto, persona.foto);
     }
 
-    public Long getId() {
+
+    public long getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getNombre() {
@@ -121,28 +112,28 @@ public class Persona  implements Serializable{
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    public Short getNumHijos() {
+    public short getNumHijos() {
         return numHijos;
     }
-    public void setNumHijos(Short numHijos) {
+    public void setNumHijos(short numHijos) {
         this.numHijos = numHijos;
     }
-    public Character getEstadoCivil() {
+    public char getEstadoCivil() {
         return estadoCivil;
     }
-    public void setEstadoCivil(Character estadoCivil) {
+    public void setEstadoCivil(char estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
-    public Double getSalario() {
+    public double getSalario() {
         return salario;
     }
     public void setSalario(Double salario) {
         this.salario = salario;
     }
-    public Boolean getJubilado() {
+    public byte getJubilado() {
         return jubilado;
     }
-    public void setJubilado(Boolean jubilado) {
+    public void setJubilado(byte jubilado) {
         this.jubilado = jubilado;
     }
     public String getFoto() {
@@ -156,6 +147,4 @@ public class Persona  implements Serializable{
     public int hashCode() {
         return Objects.hash(id, nombre, apellidos, telefono, email, provincia, fechaNacimiento, numHijos, estadoCivil, salario, jubilado, foto);
     }
-
-
 }

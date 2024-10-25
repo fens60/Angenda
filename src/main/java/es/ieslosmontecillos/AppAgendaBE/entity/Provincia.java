@@ -10,14 +10,14 @@ public class Provincia implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private Long id;
+    private long id;
     @Basic
     @Column(name = "CODIGO", nullable = true, length = 2)
     private String codigo;
     @Basic
     @Column(name = "NOMBRE", nullable = false, length = 20)
     private String nombre;
-    public Long getId() {
+    public long getId() {
         return id;
     }
     public void setId(Long id) {
