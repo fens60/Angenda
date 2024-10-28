@@ -4,15 +4,18 @@ import es.ieslosmontecillos.AppAgendaBE.Dao.PersonaDao;
 import es.ieslosmontecillos.AppAgendaBE.entity.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
-public class PersonaServiceImplement implements PersonaService {
+public class PersonaServiceImplement implements PersonaService
+{
     @Autowired
     private PersonaDao personaDao;
+
     @Override
     public List<Persona> findAll() {
-        return (List<Persona>) personaDao.findAll();
+        return personaDao.findAll();
     }
     @Override
     public Persona save(Persona persona) {

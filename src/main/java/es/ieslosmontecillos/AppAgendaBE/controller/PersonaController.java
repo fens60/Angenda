@@ -2,6 +2,7 @@ package es.ieslosmontecillos.AppAgendaBE.controller;
 
 import es.ieslosmontecillos.AppAgendaBE.entity.Persona;
 import es.ieslosmontecillos.AppAgendaBE.service.PersonaService;
+import es.ieslosmontecillos.AppAgendaBE.service.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,44 +15,40 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 public class PersonaController {
-
-    private final PersonaService personaService;
-
     @Autowired
-    public PersonaController(PersonaService personaService) {
-        this.personaService = personaService;
-    }
+    private PersonaService personaService;
 
-    @GetMapping("/PERSONA")
-    public ResponseEntity<Object> getAll() {
+    @GetMapping(value = "/PERSONA")
+    public ResponseEntity<Object> get() {
+        Map<String, Object> map = new HashMap<>();
         try {
             List<Persona> list = personaService.findAll();
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
             map.put("message", e.getMessage());
             return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/PERSONA/{id}")
+    @GetMapping(value = "/PERSONA/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        Persona persona = personaService.findById(id);
-        if (persona == null) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("message", "Persona not found with id " + id);
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        try {
+            Persona data = personaService.findById(id);
+            return new ResponseEntity<Object>(data, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("message", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(persona, HttpStatus.OK);
     }
 
-    @PostMapping("/PERSONA")
-    public ResponseEntity<Object> create(@RequestBody Persona persona) {
+    @PostMapping(value = "/PERSONA")
+    public ResponseEntity<Object> create(@RequestBody Persona provincia) {
+        Map<String, Object> map = new HashMap<String, Object>();
         try {
-            Persona savedPersona = personaService.save(persona);
-            return new ResponseEntity<>(savedPersona, HttpStatus.CREATED);
+            Persona res = personaService.save(provincia);
+            return new ResponseEntity<Object>(res, HttpStatus.OK);
         } catch (Exception e) {
-            Map<String, Object> map = new HashMap<>();
             map.put("message", e.getMessage());
             return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -59,41 +56,41 @@ public class PersonaController {
 
     @PutMapping("/PERSONA/{id}")
     public ResponseEntity<Object> update(@RequestBody Persona persona, @PathVariable Long id) {
-        Persona currentPersona = personaService.findById(id);
-        if (currentPersona == null) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("message", "Persona not found with id " + id);
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            Persona currentPersona = personaService.findById(id);
+
+            currentPersona.setNombre(persona.getNombre());
+            currentPersona.setApellidos(persona.getApellidos());
+            currentPersona.setTelefono(persona.getTelefono());
+            currentPersona.setEmail(persona.getEmail());
+            currentPersona.setProvincia(persona.getProvincia());
+            currentPersona.setFecha(persona.getFecha());
+            currentPersona.setNumHijos(persona.getNumHijos());
+            currentPersona.setEstadoCivil(persona.getEstadoCivil());
+            currentPersona.setSalario(persona.getSalario());
+            currentPersona.setJubilado(persona.getJubilado());
+            currentPersona.setFoto(persona.getFoto());
+
+            Persona res = personaService.save(currentPersona);
+            return new ResponseEntity<Object>(res, HttpStatus.OK);
+        } catch (Exception e) {
+            map.put("message", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        currentPersona.setNombre(persona.getNombre());
-        currentPersona.setApellidos(persona.getApellidos());
-        currentPersona.setTelefono(persona.getTelefono());
-        currentPersona.setEmail(persona.getEmail());
-        currentPersona.setProvincia(persona.getProvincia());
-        currentPersona.setFechaNacimiento(persona.getFechaNacimiento());
-        currentPersona.setNumHijos(persona.getNumHijos());
-        currentPersona.setEstadoCivil(persona.getEstadoCivil());
-        currentPersona.setSalario(persona.getSalario());
-        currentPersona.setJubilado(persona.getJubilado());
-        currentPersona.setFoto(persona.getFoto());
-
-        Persona updatedPersona = personaService.save(currentPersona);
-        return new ResponseEntity<>(updatedPersona, HttpStatus.OK);
     }
 
     @DeleteMapping("/PERSONA/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        Persona currentPersona = personaService.findById(id);
-        if (currentPersona == null) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("message", "Persona not found with id " + id);
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            Persona currentPersona = personaService.findById(id);
+            personaService.delete(currentPersona);
+            map.put("deleted", true);
+            return new ResponseEntity<Object>(map, HttpStatus.OK);
+        } catch (Exception e) {
+            map.put("message", e.getMessage());
+            return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        personaService.delete(currentPersona);
-        Map<String, Object> map = new HashMap<>();
-        map.put("deleted", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }
