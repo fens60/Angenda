@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AppAgendaBeApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(AppAgendaBeApplication.class, args);
     }
 
